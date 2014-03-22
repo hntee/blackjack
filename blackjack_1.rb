@@ -3,17 +3,13 @@ def clear_screen
 end
 
 def get_name
-
   puts 'What is your name?'
   name = gets.chomp
-
   if name.strip.length == 0
     puts 'Not a valid name. Please input again.',''
     get_name
   end
-
   name
-
 end
 
 def generate_deck
@@ -26,7 +22,6 @@ end
 
 # you can flush n decks
 def flush_deck (n = 1)
-
   deck = []
   n.times { deck.concat(generate_deck) }
 
@@ -35,11 +30,8 @@ def flush_deck (n = 1)
     
     i, j = rand(deck.length), rand(deck.length)
     deck[i], deck[j] = deck[j], deck[i]
-
   end
-
   deck
-
 end
 
 # return n cards from the top of the deck
@@ -59,10 +51,8 @@ def calc_points (cards)
   $points = 0
 
   cards.each do |card| 
-
     # omit suits
     num = card.match(/[^SHDC]+/)
-    
     # count the points
     if num.to_s.match(/[0-9]/)
       $points += num.to_s.to_i
@@ -75,11 +65,9 @@ def calc_points (cards)
         $points += 1
       end
     end
-
   end
 
   $points
-
 end
 
 def bust? (points)
@@ -99,7 +87,6 @@ def compare (dealer_points, player_points)
 end
 
 def display_cards_and_points (name, cards, init = 0)
-  
   # only view one card of the dealer's when game starts
   if init == 1
     visible_card = [cards[0]]
@@ -127,13 +114,11 @@ def dealer_control (name, deck, dealer_cards)
   display_cards_and_points('dealer', dealer_cards)
 
   while calc_points(dealer_cards) < 17
-
     new_card = deal(1,deck)
     dealer_cards.concat(new_card)
 
     puts 'Dealer\'s got a new card.'
     display_cards_and_points('dealer', dealer_cards)
-
   end
 
   if bust?(calc_points(dealer_cards))
@@ -146,13 +131,9 @@ def dealer_control (name, deck, dealer_cards)
 
 end
 
-
 def player_control (name, deck, hand_cards)
-
   while true
-
     display_cards_and_points('player', hand_cards)
-
     input = prompt?(name, 'do you want to hit or stay?','h','s')
 
     if input # is hit
@@ -161,28 +142,21 @@ def player_control (name, deck, hand_cards)
       player_points = calc_points(hand_cards)
 
       if bust?(player_points)
-
         display_cards_and_points('player', hand_cards)
         puts 'Bust!'
         play_or_exit(name)
-
-        
       end
 
       if player_points == 21
-
         display_cards_and_points('player', hand_cards)
         puts 'Blackjack! You win!'
-        play_or_exit(name)
-        
+        play_or_exit(name)      
       end
 
     else # input is stay
       break
     end
-
-  end
-      
+  end     
 end
 
 
@@ -196,7 +170,6 @@ def prompt? (name, msg, a, b)
   end
 
   input == a 
-
 end
 
 
@@ -213,21 +186,17 @@ def play_or_exit (name)
 end
 
 def play (name)
-
   clear_screen
   deck = flush_deck
-
   hand_cards = deal(2, deck)
   dealer_cards = deal(2, deck)
   
   display_cards_and_points('dealer', dealer_cards, init = 1)
 
   if calc_points(hand_cards) == 21
-
     display_cards_and_points('player', hand_cards)
     puts 'Blackjack! You win!'
-    play_or_exit(name)
-    
+    play_or_exit(name)    
   end
 
   player_control(name, deck, hand_cards)
@@ -237,16 +206,13 @@ def play (name)
           calc_points(hand_cards))
 
   play_or_exit(name)
-
 end
 
 def start
-
   clear_screen
   puts 'Welcome to Blackjack Game!'
   name = get_name
   play(name)
-
 end
 
 start
