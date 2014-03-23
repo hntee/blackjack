@@ -48,26 +48,26 @@ def calc_points (cards)
   cards -= aces
   cards += aces
 
-  $points = 0
+  points = 0
 
   cards.each do |card| 
     # omit suits
     num = card.match(/[^SHDC]+/)
     # count the points
     if num.to_s.match(/[0-9]/)
-      $points += num.to_s.to_i
+      points += num.to_s.to_i
     elsif num.to_s.match(/[JQK]/)
-      $points += 10
+      points += 10
     else # just remain Aces
-      if $points < 11
-        $points += 11
+      if points < 11
+        points += 11
       else
-        $points += 1
+        points += 1
       end
     end
   end
 
-  $points
+  points
 end
 
 def bust? (points)
